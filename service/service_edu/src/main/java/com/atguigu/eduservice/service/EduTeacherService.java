@@ -1,7 +1,10 @@
 package com.atguigu.eduservice.service;
 
 import com.atguigu.eduservice.entity.EduTeacher;
+import com.atguigu.eduservice.entity.vo.TeacherQuery;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduTeacherService extends IService<EduTeacher> {
 
+
+    Map<String, Object> getTeacherList(long current, long limit, TeacherQuery teacherQuery);
 }

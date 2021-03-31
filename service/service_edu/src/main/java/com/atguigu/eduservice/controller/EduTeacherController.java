@@ -30,6 +30,14 @@ public class EduTeacherController {
 
     @Autowired
     private EduTeacherService eduTeacherService;
+
+    @ApiOperation("根据讲师id查询讲师")
+    @GetMapping("getTeacher/{id}")
+    public R getTeacher(@ApiParam("讲师id") @PathVariable String id) {
+        EduTeacher eduTeacher = eduTeacherService.getById(id);
+        return R.ok().data("teacher",eduTeacher);
+    }
+
     //查询所有讲师
     @ApiOperation("查询讲师列表")
     @GetMapping("findAll")

@@ -111,5 +111,12 @@ public class EduTeacherController {
         boolean flag = eduTeacherService.removeById(id);
         return flag?R.ok():R.error();
     }
+
+    @ApiOperation("添加讲师")
+    @PostMapping("addTeacher")
+    public R addTeacher(@ApiParam("讲师信息") @RequestBody EduTeacher eduTeacher) {
+        boolean save = eduTeacherService.save(eduTeacher);
+        return save?R.ok():R.error();
+    }
 }
 

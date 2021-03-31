@@ -3,6 +3,9 @@ package com.atguigu.eduservice.controller;
 
 import com.atguigu.eduservice.entity.EduTeacher;
 import com.atguigu.eduservice.service.EduTeacherService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +21,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/eduservice/teacher")
+@Api(tags = "讲师管理")
 public class EduTeacherController {
 
     @Autowired
     private EduTeacherService eduTeacherService;
     //查询所有讲师
+    @ApiOperation("查询讲师列表")
     @GetMapping("findAll")
     public List<EduTeacher> findAllTeacher() {
         List<EduTeacher> list = eduTeacherService.list(null);
@@ -30,8 +35,11 @@ public class EduTeacherController {
     }
 
     //逻辑删除讲师
+    @ApiOperation("逻辑删除讲师")
     @DeleteMapping("{id}")
-    public boolean removeTeacher(@PathVariable String id) {
+    public boolean removeTeacher(
+            @ApiParam(name = "id",value = "讲师ID",required = true)
+            @PathVariable String id) {
         return eduTeacherService.removeById(id);
     }
 }

@@ -30,6 +30,14 @@ public class EduTeacherController {
 
     @Autowired
     private EduTeacherService eduTeacherService;
+
+    @ApiOperation("根据讲师id查询讲师")
+    @GetMapping("getTeacher/{id}")
+    public R getTeacher(@ApiParam("讲师id") @PathVariable String id) {
+        EduTeacher eduTeacher = eduTeacherService.getById(id);
+        return R.ok().data("teacher",eduTeacher);
+    }
+
     //查询所有讲师
     @ApiOperation("查询讲师列表")
     @GetMapping("findAll")
@@ -109,6 +117,20 @@ public class EduTeacherController {
             @ApiParam(name = "id",value = "讲师ID",required = true)
             @PathVariable String id) {
         boolean flag = eduTeacherService.removeById(id);
+        return flag?R.ok():R.error();
+    }
+
+    @ApiOperation("添加讲师")
+    @PostMapping("addTeacher")
+    public R addTeacher(@ApiParam("讲师信息") @RequestBody EduTeacher eduTeacher) {
+        boolean save = eduTeacherService.save(eduTeacher);
+        return save?R.ok():R.error();
+    }
+
+    @ApiOperation("修改讲师信息")
+    @PostMapping("updateTeacher")
+    public R updateTeacher(@ApiParam("讲师信息") @RequestBody EduTeacher eduTeacher) {
+        boolean flag = eduTeacherService.updateById(eduTeacher);
         return flag?R.ok():R.error();
     }
 }

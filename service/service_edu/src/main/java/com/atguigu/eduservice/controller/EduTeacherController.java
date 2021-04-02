@@ -126,5 +126,12 @@ public class EduTeacherController {
         boolean save = eduTeacherService.save(eduTeacher);
         return save?R.ok():R.error();
     }
+
+    @ApiOperation("修改讲师信息")
+    @PostMapping("updateTeacher")
+    public R updateTeacher(@ApiParam("讲师信息") @RequestBody EduTeacher eduTeacher) {
+        boolean flag = eduTeacherService.updateById(eduTeacher);
+        return flag?R.ok():R.error();
+    }
 }
 

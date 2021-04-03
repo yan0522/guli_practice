@@ -9,6 +9,7 @@
     <modules>
         <module>service</module>
         <module>common</module>
+        <module>infrastructure</module>
     </modules>
     <name>guli_practice</name>
     <description>Demo project for Spring Boot</description>

@@ -2,6 +2,7 @@ package com.atguigu.aclservice.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.aclservice.entity.Permission;
+import com.atguigu.aclservice.entity.RolePermission;
 import com.atguigu.aclservice.entity.User;
 import com.atguigu.aclservice.helper.MemuHelper;
 import com.atguigu.aclservice.helper.PermissionHelper;
@@ -118,6 +119,24 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
             idList.add(item.getId());
             this.selectPermissionChildById(item.getId(),idList);
         }
+    }
+
+    //给角色分配权限
+    @Override
+    public void saveRolePermissionRealtionShip(String roleId, String[] permissionIds) {
+
+        //创建用于封装角色权限表数据的list
+        List<RolePermission> rolePermissionList = new ArrayList<>();
+
+        //遍历权限，将角色id和权限id对应添加到list集合中
+        for (String perId : permissionIds) {
+            RolePermission rolePermission = new RolePermission();
+            rolePermission.setRoleId(roleId);
+            rolePermission.setPermissionId(perId);
+            rolePermissionList.add(rolePermission);
+        }
+        //调用rolePermissionService的批量保存方法，保存数据到角色权限表中
+        rolePermissionService.saveBatch(rolePermissionList);
     }
 
 

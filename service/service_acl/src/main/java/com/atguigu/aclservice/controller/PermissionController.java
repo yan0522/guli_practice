@@ -5,10 +5,9 @@ import com.atguigu.aclservice.entity.Permission;
 import com.atguigu.aclservice.service.PermissionService;
 import com.atguigu.commonutils.R;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +32,13 @@ public class PermissionController {
     public R indexAllPermission() {
         List<Permission> list = permissionService.queryAllMenu();
         return R.ok().data("children",list);
+    }
 
+    @ApiOperation("递归删除菜单")
+    @DeleteMapping("remove/{id}")
+    public R remove(@ApiParam("要删除的菜单id") @PathVariable String id) {
+        permissionService.removeChildById(id);
+        return R.ok();
     }
     /*//获取全部菜单
     @ApiOperation(value = "查询所有菜单")

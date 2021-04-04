@@ -3,12 +3,15 @@ package com.atguigu.aclservice.service.impl;
 import com.atguigu.aclservice.entity.User;
 import com.atguigu.aclservice.service.PermissionService;
 import com.atguigu.aclservice.service.UserService;
+import com.atguigu.security.entity.SecurityUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -46,12 +49,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         com.atguigu.security.entity.User curUser = new com.atguigu.security.entity.User();
         BeanUtils.copyProperties(user,curUser);
 
-        //TODO 暂时注释，等待还原下面注释内容
-        /*List<String> authorities = permissionService.selectPermissionValueByUserId(user.getId());
+        List<String> authorities = permissionService.selectPermissionValueByUserId(user.getId());
         SecurityUser securityUser = new SecurityUser(curUser);
         securityUser.setPermissionValueList(authorities);
-        return securityUser;*/
-        return null;
+        return securityUser;
     }
 
 }

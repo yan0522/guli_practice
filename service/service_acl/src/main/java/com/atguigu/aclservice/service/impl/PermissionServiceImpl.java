@@ -84,9 +84,41 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return permissionNode;
     }
 
+    //递归删除菜单及子菜单
+    @Override
+    public void removeChildById(String id) {
 
+        //创建一个用于保存要被删除菜单的id集合
+        List<String> idList = new ArrayList<>();
+        this.selectPermissionChildById(id,idList);
+        idList.add(id);
+        //根据id集合批量删除菜单
+        baseMapper.deleteBatchIds(idList);
+    }
 
+    //根据要删除菜单的id查询出全部子菜单，放入list集合中
+    private void selectPermissionChildById(String id, List<String> idList) {
+        //第一种需要查询全部,if判断pid关联,效率太低
+        /*QueryWrapper<Permission> wrapper = new QueryWrapper<>();
+        List<Permission> permissionList = baseMapper.selectList(wrapper);
+        for (Permission item : permissionList) {
+            if (id.equals(item.getPid())) {
+                idList.add(item.getId());
+                this.selectPermissionChildById(item.getId(),idList);
+            }
+        }*/
 
+        //第二种不需要if判断,直接wrapper条件过滤pid关联,效率高
+        QueryWrapper<Permission> wrapper = new QueryWrapper<>();
+        //设置查询条件为pid等于传入的id,这样遍历的时候数据少，会快很多
+        wrapper.eq("pid",id);
+        wrapper.select("id");
+        List<Permission> permissionList = baseMapper.selectList(wrapper);
+        for (Permission item : permissionList) {
+            idList.add(item.getId());
+            this.selectPermissionChildById(item.getId(),idList);
+        }
+    }
 
 
     //根据用户id获取用户菜单

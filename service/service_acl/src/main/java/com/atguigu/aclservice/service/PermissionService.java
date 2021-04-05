@@ -20,7 +20,7 @@ public interface PermissionService extends IService<Permission> {
     List<Permission> queryAllMenu();
 
     //根据角色获取菜单
-    //List<Permission> selectAllMenu(String roleId);
+    List<Permission> selectAllMenu(String roleId);
 
     //根据用户id获取用户菜单
     List<String> selectPermissionValueByUserId(String id);

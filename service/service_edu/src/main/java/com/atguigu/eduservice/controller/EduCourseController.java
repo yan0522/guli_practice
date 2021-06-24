@@ -2,9 +2,11 @@ package com.atguigu.eduservice.controller;
 
 
 import com.atguigu.commonutils.R;
+import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.vo.CourseInfoVo;
 import com.atguigu.eduservice.entity.vo.CoursePublishVo;
 import com.atguigu.eduservice.service.EduCourseService;
+import com.atguigu.servicebase.exception.GuliException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,20 @@ public class EduCourseController {
     public R getPublishCourseInfo(@PathVariable String id) {
         CoursePublishVo coursePublishVo = courseService.publishCourseInfo(id);
         return R.ok().data("publishCourse",coursePublishVo);
+    }
+
+    //课程最终发布，修改课程状态
+    @PostMapping("publishCourse/{id}")
+    public R publishCourse(@PathVariable String id) {
+        EduCourse eduCourse = new EduCourse();
+        eduCourse.setId(id);
+        eduCourse.setStatus("Normal");
+        boolean update = courseService.updateById(eduCourse);
+        if (update) {
+            return R.ok().message("课程发布成功");
+        }else {
+            throw new GuliException(20001,"课程发布失败");
+        }
     }
 }
 

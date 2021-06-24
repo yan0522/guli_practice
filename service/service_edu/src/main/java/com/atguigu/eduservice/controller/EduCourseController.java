@@ -10,6 +10,8 @@ import com.atguigu.servicebase.exception.GuliException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程 前端控制器
@@ -24,6 +26,14 @@ public class EduCourseController {
 
     @Autowired
     private EduCourseService courseService;
+
+    //课程列表显示，基本实现
+    //TODO 完善成带分页条件查询
+    @GetMapping
+    public R getCourseList() {
+        List<EduCourse> list = courseService.list(null);
+        return R.ok().data("list",list);
+    }
 
     //添加课程基本信息
     @PostMapping("addCourseInfo")

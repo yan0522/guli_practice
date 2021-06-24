@@ -77,5 +77,13 @@ public class EduCourseController {
             throw new GuliException(20001,"课程发布失败");
         }
     }
+
+    //课程删除
+    @DeleteMapping("{courseId}")
+    public R deleteCourse(@PathVariable String courseId) {
+        courseService.removeCourse(courseId);
+        return R.ok();
+    }
+
 }
 

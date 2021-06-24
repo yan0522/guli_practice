@@ -3,6 +3,7 @@ package com.atguigu.eduservice.service.impl;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.EduCourseDescription;
 import com.atguigu.eduservice.entity.vo.CourseInfoVo;
+import com.atguigu.eduservice.entity.vo.CoursePublishVo;
 import com.atguigu.eduservice.mapper.EduCourseMapper;
 import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.atguigu.eduservice.service.EduCourseService;
@@ -74,5 +75,12 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         eduCourseDescription.setId(courseInfoVo.getId());
         eduCourseDescription.setDescription(courseInfoVo.getDescription());
         eduCourseDescriptionService.updateById(eduCourseDescription);
+    }
+
+    //根据课程id查询课程预发布确认信息
+    @Override
+    public CoursePublishVo publishCourseInfo(String id) {
+        CoursePublishVo publishCourseInfo = baseMapper.getCoursePublishVo(id);
+        return publishCourseInfo;
     }
 }

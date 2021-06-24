@@ -4,16 +4,24 @@ import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.EduCourseDescription;
 import com.atguigu.eduservice.entity.vo.CourseInfoVo;
 import com.atguigu.eduservice.entity.vo.CoursePublishVo;
+import com.atguigu.eduservice.entity.vo.CourseQuery;
 import com.atguigu.eduservice.mapper.EduCourseMapper;
 import com.atguigu.eduservice.service.EduChapterService;
 import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.atguigu.eduservice.service.EduVideoService;
 import com.atguigu.servicebase.exception.GuliException;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -110,5 +118,41 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         if (delete == 0) {
             throw new GuliException(20001,"删除课程失败");
         }
+    }
+
+    //多条件组合查询课程分页
+    @Override
+    public Map<String, Object> getCourseList(long current, long limit, CourseQuery courseQuery) {
+        Page<EduCourse> pageCourse = new Page<>(current,limit);
+        QueryWrapper<EduCourse> courseQueryWrapper = new QueryWrapper<>();
+        //构建多条件组合查询
+        String title = courseQuery.getTitle();
+        String teacherId = courseQuery.getTeacherId();
+        String subjectParentId = courseQuery.getSubjectParentId();
+        String subjectId = courseQuery.getSubjectId();
+        String status = courseQuery.getStatus();
+        if (!StringUtils.isEmpty(title)) {
+            courseQueryWrapper.like("title",title);
+        }
+        if (!StringUtils.isEmpty(teacherId)) {
+            courseQueryWrapper.eq("teacher_id",teacherId);
+        }
+        if (!StringUtils.isEmpty(status)) {
+            courseQueryWrapper.eq("status",status);
+        }
+        if (!StringUtils.isEmpty(subjectParentId)) {
+            courseQueryWrapper.eq("subject_Parent_id",subjectParentId);
+        }
+        if (!StringUtils.isEmpty(subjectId)) {
+            courseQueryWrapper.eq("subject_id",subjectId);
+        }
+        baseMapper.selectPage(pageCourse,courseQueryWrapper);
+        long total = pageCourse.getTotal();
+        List<EduCourse> records = pageCourse.getRecords();
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("total",total);
+        map.put("rows",records);
+        return map;
     }
 }

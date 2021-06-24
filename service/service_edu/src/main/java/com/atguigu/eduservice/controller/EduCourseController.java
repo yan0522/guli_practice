@@ -5,12 +5,16 @@ import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduCourse;
 import com.atguigu.eduservice.entity.vo.CourseInfoVo;
 import com.atguigu.eduservice.entity.vo.CoursePublishVo;
+import com.atguigu.eduservice.entity.vo.CourseQuery;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.atguigu.servicebase.exception.GuliException;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -83,6 +87,19 @@ public class EduCourseController {
     public R deleteCourse(@PathVariable String courseId) {
         courseService.removeCourse(courseId);
         return R.ok();
+    }
+
+    //多条件组合查询课程分页
+    @ApiOperation("多条件组合查询课程分页")
+    @PostMapping("pageCourseCondition/{current}/{limit}")
+    public R pageCourseCondition(@ApiParam("当前页")
+                                 @PathVariable long current,
+                                 @ApiParam("每页显示数量")
+                                 @PathVariable long limit,
+                                 @ApiParam("查询条件封装的对象")
+                                 @RequestBody(required = false) CourseQuery courseQuery) {
+        Map<String,Object> map = courseService.getCourseList(current,limit,courseQuery);
+        return R.ok().data(map);
     }
 
 }

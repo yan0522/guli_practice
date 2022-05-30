@@ -1,0 +1,24 @@
+package com.atguigu.servicebase.exception;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * TODO
+ *
+ * @ClassName: GuliException
+ * @author: yan
+ * @since: 2021/4/2 16:42
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GuliException extends RuntimeException{
+
+    @ApiModelProperty(value = "状态码")
+    private Integer code;
+
+    private String msg;
+}

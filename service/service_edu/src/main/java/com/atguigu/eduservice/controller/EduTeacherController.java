@@ -62,8 +62,8 @@ public class EduTeacherController {
     }
 
     @ApiOperation("多条件组合查询讲师分页")
-    @PostMapping("getTeacherPageList/{current}/{limit}")
-    public R getTeacherPageList(@ApiParam("当前页")
+    @PostMapping("pageTeacherCondition/{current}/{limit}")
+    public R pageTeacherCondition(@ApiParam("当前页")
                                 @PathVariable long current,
                                 @ApiParam("每页显示数量")
                                 @PathVariable long limit,

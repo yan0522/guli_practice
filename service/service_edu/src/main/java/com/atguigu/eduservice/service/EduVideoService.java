@@ -17,6 +17,6 @@ public interface EduVideoService extends IService<EduVideo> {
     void removeVideoById(String id);
 
     //根据课程id删除小节
-    void removeVideoByCourseId(String CourseId);
+    void removeVideoByCourseId(String courseId);
 
 }
